@@ -1,8 +1,8 @@
+##download the file
+##download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip",destfile = "UCI_HAR.zip")
+##unzip("UCI_HAR.zip")
 
 ## READING txt files
-#download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip",destfile="UCI_HAR.zip")
-#unzip("UCI_HAR_Dataset.zip")
-
 ##training data set
 mydata_tr_SET <- read.table("./UCI_HAR/train/X_train.txt",head=FALSE)
 mydata_tr_ACT <- read.table("./UCI_HAR/train/Y_train.txt",head=FALSE)
@@ -61,10 +61,12 @@ names(mydata_mr_SET) <- sapply(colnames(mydata_mr_SET),ApprLabel)
 
 ##creates independent tidy data set with the average of each variable for each activity and each subject.
 mydata_Tidy_SET <-aggregate(. ~subject + activity,data= mydata_mr_SET , mean)
-    
-if(!file.exists("dataset.csv")){file.create("dataset.csv")}
-write.csv(mydata_Tidy_SET, "dataset.csv", row.names=FALSE)
 
+## write the tidy data set into txt file
+if(!file.exists("dataset.txt")){file.create("dataset.txt")}
+write.table(mydata_Tidy_SET,file="dataset.txt", row.name=FALSE)
+
+## create the codebook
  if(!file.exists("CodeBook.md")){file.create("CodeBook.md")}
  Write(codebook(mydata_Tidy_SET),file="CodeBook.md")
  
